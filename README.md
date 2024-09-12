@@ -12,3 +12,7 @@ are a handful of values which are "free" (no key required).
 This branch simply demonstrates how free basemaps can be used to display
 a Map without requiring login. It also shows how using a non-free option
 will prompt for login before rendering the map.
+
+### Running
+Checkout out the repo and then `yarn; yarn start`. That should take care
+of everything you need!
