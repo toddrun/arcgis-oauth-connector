@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
 code {
@@ -15,6 +16,7 @@ code {
 .content {
   display: flex;
   flex-grow: 1;
+  height: 100%;
 }
 
 .main-view {
@@ -30,5 +32,13 @@ code {
   margin: 0;
   height: 100%;
   width: 100%;
+}
+
+.sidebar {
+  width: 40%;
+}
+
+.sidebar input {
+  margin: 10px;
 }
 

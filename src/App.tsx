@@ -3,13 +3,13 @@ import MainView from "./main-view";
 import Sidebar from "./sidebar";
 
 function App() {
-  const [apiKey, setApiKey] = useState(undefined);
+  const [basemap, setBasemap] = useState("topo")
 
   return (
     <div className="App">
       <div className="content">
-        <Sidebar setApiKey={setApiKey}/>
-        <MainView apiKey={apiKey} />
+        <Sidebar basemap={basemap} setBasemap={setBasemap} />
+        <MainView basemap={basemap} />
       </div>
     </div>
   );
