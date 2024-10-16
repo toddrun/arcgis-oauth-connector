@@ -1,35 +1,26 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import ArcGisConnection, { DEFAULT_PORTAL_URL } from './arcgis/arcgis-connection';
-import ArcGisLayerIds from './arcgis/arcgis-layer-ids';
+import React from 'react';
+import Basemaps from './functions/basemaps';
+import Layers from './functions/layers';
+import GoTo from './functions/go-to';
+import { GoToLocation } from './App';
 
 interface Props {
   basemap: string,
   setBasemap: (string) => void
+  layer: string,
+  setLayer: (string) => void
+  location: GoToLocation,
+  setLocation: (GoToLocation) => void
 }
 
-const Sidebar: React.FC<Props> = ({basemap, setBasemap}) => {
-  const [localValue, setLocalValue] = useState(basemap)
-
-  return (
-    <div  className="sidebar">
-      <div className='entry-item'>
-        <label>Basemap:</label><input value={localValue} onChange={(e) => setLocalValue(e.target.value)} />
-        <button onClick={() => setBasemap(localValue)}>Select</button>
-      </div>
-      <div>
-        Free:<ul>
-          <li>satellite</li>
-          <li>topo</li>
-          <li>streets</li>
-          <li>dark-gray"</li>
-        </ul>
-        Paid:<ul>
-          <li>arcgis/navigation</li>
-          <li>Anything else from https://developers.arcgis.com/rest/basemap-styles/</li>
-        </ul>
-      </div>
-    </div>
-  );
-};
+const Sidebar: React.FC<Props> = ({basemap, setBasemap, layer, setLayer, location, setLocation}) => (
+  <div  className="sidebar">
+    <Basemaps basemap={basemap} setBasemap={setBasemap} />
+    <hr />
+    <Layers layer={layer} setLayer={setLayer} />
+    <hr />
+    <GoTo location={location} setLocation={setLocation}/>
+  </div>
+);
 
 export default Sidebar;
