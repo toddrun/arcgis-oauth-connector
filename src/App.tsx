@@ -1,28 +1,26 @@
-import { useState } from "react";
-import MainView from "./main-view";
-import Sidebar from "./sidebar";
-import GoTo from "./functions/go-to";
+import React, { useEffect, useState } from 'react';
+import identityManager from '@arcgis/core/identity/IdentityManager';
+import Sidebar from './sidebar';
+import MainView from './main-view';
+import './style.css';
+import { LayerSetting } from './arcgis-layer-loader';
 
-export interface GoToLocation {
-  latitude?: number
-  longitude?: number
-  zoom?: number
-}
+export const FOCUS_LOCATION = [-106.534, 38.794];
 
-function App() {
-  const [basemap, setBasemap] = useState("topo")
-  const [layer, setLayer] = useState("")
-  const [location, setLocation] = useState({} as GoToLocation)
+export const App: React.FC = () => {
+  const [loadedLayers, setLoadedLayers] = useState<LayerSetting[]>([]);
+  const [esriApiKey, setEsriApiKey] = useState('');
+
+  useEffect(() => {
+    identityManager.destroyCredentials();
+  }, []);
 
   return (
     <div className="App">
-      <h1>Let's see what's available without being logged in!</h1>
       <div className="content">
-        <Sidebar basemap={basemap} setBasemap={setBasemap} layer={layer} setLayer={setLayer} location={location} setLocation={setLocation} />
-        <MainView basemap={basemap} layer={layer} location={location} />
+        <Sidebar esriApiKey={esriApiKey} setEsriApiKey={setEsriApiKey} setLoadedLayers={setLoadedLayers} />
+        { esriApiKey && <MainView loadedLayers={loadedLayers} /> }
       </div>
     </div>
   );
-}
-
-export default App;
+};

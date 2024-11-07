@@ -2,7 +2,7 @@ import ArcGisLayer from '@arcgis/core/layers/Layer';
 import esriConfig from '@arcgis/core/config';
 import identityManager from '@arcgis/core/identity/IdentityManager';
 import OAuthInfo from '@arcgis/core/identity/OAuthInfo';
-import calculateWindowFeatures from './calculate-window-features';
+import calculateWindowFeatures from './helpers/calculate-window-features';
 
 export const DEFAULT_PORTAL_URL = 'https://www.arcgis.com';
 
@@ -18,7 +18,7 @@ const ArcGisConnection = (
     flowType: 'authorization-code',
     portalUrl,
     popup: true,
-    popupCallbackUrl: '/oauth/arcgis/callback',
+    popupCallbackUrl: process.env.PUBLIC_URL + "/oauth.html",
     popupWindowFeatures: calculateWindowFeatures(),
   });
 
@@ -29,16 +29,15 @@ const ArcGisConnection = (
 
   const getAuthToken = async (): Promise<string> => {
     esriConfig.apiKey = esriApiKey;
-    console.log('getting creds');
     credentials = await identityManager.getCredential(sharingUrl);
-    console.log('got creds');
+
     return credentials?.token;
   };
 
   const fetchLayer = async (layerId: string, baseURL: string): Promise<ArcGisLayer> => {
     const token = await getAuthToken();
 
-    // This must be set correctly or loading the layer will fail
+    // This is the line that we have trouble with in Fulcrum
     esriConfig.apiKey = isOnline ? '' : esriApiKey;
 
     return ArcGisLayer.fromPortalItem({
